@@ -54,16 +54,16 @@ Options
 ```
 ##### Examples
 ```bash
-❯ permcon rwxr---wx    
+❯ npx permcon rwxr---wx    
 743
 
-❯ permcon 743      
+❯ npx permcon 743      
 rwxr---wx
 
-❯ permcon drwxr---wx -a                                 
+❯ npx permcon drwxr---wx -a                                 
 # or
 
-❯ node src/script.js -a drwxrw-r--
+❯ npx permcon -a drwxrw-r--
 
 file type: Directory
 symbolic: rwxrw-r--
