@@ -1,0 +1,45 @@
+{
+  "name": "permcon",
+  "version": "1.0.0",
+  "description": "A simple utility tool to convert file-system permission from symbolic to octal notation and vice versa. ",
+  "keywords": [
+    "permission",
+    "file-system",
+    "linux",
+    "permission-converter",
+    "octal",
+    "symbolic"
+  ],
+  "author": {
+    "name": "Sifat Hossain",
+    "email": "hsifat@protonmail.com",
+    "role": "Developer"
+  },
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "bin": {
+    "permcon": "./src/script.js"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "testCov": "jest --coverage",
+    "test": "jest --watch",
+    "prepublishOnly": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h-sifat/permcon.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/h-sifat/permcon/issues"
+  },
+  "homepage": "https://github.com/h-sifat/permcon#readme",
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.11.1",
+    "jest": "^27.3.1"
+  }
+}
