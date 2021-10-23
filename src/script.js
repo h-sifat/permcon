@@ -2,35 +2,30 @@
 
 const { convert, analyze, SPECIAL_PERMISSION_NAMES } = require("./index");
 
-const HELP_TEXT = `A simple utility to convert file-system permission from
-symbolic to octal notation and vice versa.\n
-Usages: permcon [-a] permission-string or number\n
-Options
--------
-1. -a : Analyze the permission and print details.
-2. --help: Shows help text`;
-
 const [permStr, hasAnalyzeOption] = (function processArgs() {
   const args = process.argv.slice(2).map((a) => a.trim());
   if (!args.length) {
     console.error(
-      `Permission Argument is missing.\nSee help: "permcon --help"`
+      chalk(
+        `Permission Argument is missing.\nSee help: "permcon --help"`,
+        "red"
+      )
     );
     process.exit(1);
   } else if (args.length > 2) {
-    console.error(`Too many arguments.`);
+    console.error(chalk(`Too many arguments.`, "red"));
     process.exit(1);
   }
-
   if (args.length === 1) {
     if (args[0] === "--help") {
-      console.log(HELP_TEXT);
+      // Lazy load the help text
+      console.log(require("./helpText"));
       process.exit();
     } else return [args[0], false];
   }
 
   if (!args.includes("-a")) {
-    console.error(`Invalid option. Did you mean "-a"?`);
+    console.error(chalk(`Invalid option. Did you mean "-a"?`, "red"));
     process.exit(1);
   }
 

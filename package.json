@@ -3,8 +3,7 @@
   "version": "1.0.1",
   "description": "A simple utility tool to convert file-system permission from symbolic to octal notation and vice versa. ",
   "keywords": [
-    "permission",
-    "convert",
+    "file-permission",
     "file-system",
     "file",
     "directory",
@@ -13,7 +12,10 @@
     "linux",
     "permission-converter",
     "octal",
-    "symbolic"
+    "symbolic",
+    "SUID",
+    "SGID",
+    "STICKY_BIT"
   ],
   "author": {
     "name": "Sifat Hossain",
