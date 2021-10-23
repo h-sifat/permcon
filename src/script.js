@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
-const { convert, analyze } = require("./index");
+const { convert, analyze, SPECIAL_PERMISSION_NAMES } = require("./index");
+
+const HELP_TEXT = `A simple utility to convert file-system permission from
+symbolic to octal notation and vice versa.\n
+Usages: permcon [-a] permission-string or number\n
+Options
+-------
+1. -a : Analyze the permission and print details.
+2. --help: Shows help text`;
 
 const [permStr, hasAnalyzeOption] = (function processArgs() {
   const args = process.argv.slice(2).map((a) => a.trim());
@@ -16,15 +24,7 @@ const [permStr, hasAnalyzeOption] = (function processArgs() {
 
   if (args.length === 1) {
     if (args[0] === "--help") {
-      const helpText = `A simple utility to convert file-system permission from
-symbolic to octal notation and vice versa.\n
-Usages: permcon [-a] permission-string or number\n
-Options
--------
-1. -a : Analyze the permission and print details.
-2. --help: Shows help text`;
-
-      console.log(helpText);
+      console.log(HELP_TEXT);
       process.exit();
     } else return [args[0], false];
   }
@@ -42,21 +42,44 @@ try {
     console.log(formatResult(analyze(permStr)));
   } else console.log(convert(permStr));
 } catch (ex) {
-  console.error(ex.message);
+  console.error(chalk(ex.message, "red"));
   process.exit(1);
 }
 
 function formatResult(analysis) {
-  const { fileType, symbolic, octal, owner, group, other } = analysis;
+  const {
+    fileType,
+    symbolic,
+    octal,
+    owner,
+    group,
+    other,
+    ...specialPermissions
+  } = analysis;
+
   const result = `
 file type: ${fileType}
-symbolic: \x1b[32m${symbolic}\x1b[0m
-octal: \x1b[32m${octal}\x1b[0m
+symbolic: ${chalk(symbolic, "green")}
+octal: ${chalk(octal, "yellow")}
 -----------------
-\x1b[32mowner:\x1b[0m ${getGroupPermissionString(owner)}
-\x1b[31mgroup:\x1b[0m ${getGroupPermissionString(group)}
-\x1b[33mother:\x1b[0m ${getGroupPermissionString(other)}`;
+${chalk("owner: ", "green") + getGroupPermissionString(owner)}
+${chalk("group: ", "cyan") + getGroupPermissionString(group)}
+${chalk("other: ", "yellow") + getGroupPermissionString(other)}
+-----------------
+${
+  chalk("special permissions: ", "green") +
+  formatSpecialPermissions(specialPermissions)
+}`;
   return result;
+}
+
+function formatSpecialPermissions(specialPermissionObject) {
+  const permissions = [];
+  for (const permission of SPECIAL_PERMISSION_NAMES)
+    if (specialPermissionObject[permission]) permissions.push(permission);
+  return permissions.length
+    ? permissions.map((p) => p.toUpperCase()).join(", ")
+    : "None";
 }
 
 function getGroupPermissionString(permObj) {
@@ -66,4 +89,16 @@ function getGroupPermissionString(permObj) {
   });
 
   return permissions.join(", ");
+}
+
+function chalk(string, color) {
+  const colorValues = {
+    red: 31,
+    green: 32,
+    yellow: 33,
+    blue: 34,
+    magenta: 35,
+    cyan: 36,
+  };
+  return `\x1b[${colorValues[color] || 0}m${string}\x1b[0m`;
 }
