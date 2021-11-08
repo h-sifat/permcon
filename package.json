@@ -1,6 +1,6 @@
 {
   "name": "permcon",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple utility tool to convert file-system permission from symbolic to octal notation and vice versa. ",
   "keywords": [
     "file-permission",
@@ -14,7 +14,7 @@
     "octal",
     "symbolic",
     "SUID",
-    "SGID",
+    "GUID",
     "STICKY_BIT"
   ],
   "author": {

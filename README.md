@@ -34,7 +34,7 @@ analyze("drwxr---wx")
   group: { read: true, write: false, execute: false },
   other: { read: false, write: true, execute: true }
   suid: false,
-  sgid: false,
+  guid: false,
   sticky_bit: false
 }
 */
